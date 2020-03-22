@@ -16,8 +16,7 @@ public class UserController {
     private UserDao userDao;
 
     @Autowired
-    public UserController(UserDao userDao){
-        this.userDao=userDao;
+    public UserController(UserDao userDao){ this.userDao=userDao;
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.GET)
@@ -32,9 +31,9 @@ public class UserController {
         User user = null;
         try {
 
-            user = UserFactory.buildUser(UserTypes.getType(type));
-            if(user == null)
-                return "Null user!";
+                user = UserFactory.buildUser(UserTypes.getType(type));
+                if(user == null)
+                    return "Null user!";
 
             user.setEmail(email);
             user.setName(name);

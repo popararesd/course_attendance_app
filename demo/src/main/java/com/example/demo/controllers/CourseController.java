@@ -1,43 +1,49 @@
 package com.example.demo.controllers;
 
 import com.example.demo.databaseAccess.CourseDao;
+import com.example.demo.databaseAccess.UserDao;
 import com.example.demo.entity.Course;
+import com.example.demo.entity.Professor;
+import com.example.demo.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/course")
 public class CourseController {
-
     private CourseDao courseDao;
+    private UserDao userDao;
 
     @Autowired
-    public CourseController(CourseDao courseDao){
+    public CourseController(CourseDao courseDao,UserDao userDao){
         this.courseDao=courseDao;
+        this.userDao=userDao;
     }
 
-    @RequestMapping(value = "/createCourse", method = RequestMethod.GET)
+    @RequestMapping(value = "/addCourse", method = RequestMethod.GET)
     @ResponseBody
-    public String createCourse(@RequestParam(name = "name") String name,
-                             @RequestParam(name = "credits") String credits,
-                             @RequestParam(name = "year") String yearOfStudy,
-                             @RequestParam(name = "fac") String faculty){
+    public String addCourse(@RequestParam(name = "name") String name,
+                            @RequestParam(name = "cr") String credits,
+                            @RequestParam(name = "pr") String profId) {
         Course course = null;
         try {
+
             course = new Course();
+            if (course == null)
+                return "Null user!";
             course.setName(name);
             course.setCredits(Integer.parseInt(credits));
-            course.setYearOfStudy(Integer.parseInt(yearOfStudy));
-            course.setFaculty(faculty);
-            course.setEnrolledStudents(null);
-            course.setLectures(null);
-            course.setProfessor(null);
+            Optional<User> p = userDao.findById(Long.parseLong(profId));
+            User prof = p.get();
+            if (!(prof instanceof Professor))
+                return "Not prof";
+            course.setProfessor((Professor) prof);
             courseDao.save(course);
-
-        }catch(Exception ex){
-            return "Error creating the course: " + ex.toString();
+        } catch (Exception ex) {
+            return ex.getMessage();
         }
-        return "Course succesfully created! (id = " + course.getId() + ")";
+        return "Course added succesfully";
     }
-
 }

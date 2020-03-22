@@ -9,7 +9,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "user_id")
-    private int id;
+    private Long id;
     @Column
     private String name;
     @Column
@@ -49,5 +49,5 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getId(){return this.id;}
+    public Long getId(){return this.id;}
 }
