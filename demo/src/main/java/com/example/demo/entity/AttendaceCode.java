@@ -2,7 +2,9 @@ package com.example.demo.entity;
 
 import javax.persistence.*;
 import java.util.UUID;
-
+/**
+ * This class holds the code to be used when trying to submit the attendance.
+ */
 @Entity
 public class AttendaceCode {
 

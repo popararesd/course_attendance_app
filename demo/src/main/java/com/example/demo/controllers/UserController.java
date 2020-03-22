@@ -19,6 +19,18 @@ public class UserController {
     public UserController(UserDao userDao){ this.userDao=userDao;
     }
 
+    /**
+     * Inserts a new User into the database.
+     * @param  type the type of User to be created : "s" for Student , "p" for Professor and "a" for admin
+     * @param  name the name of the User
+     * @param  email the email of the User
+     * @param  phoneNumber the phoneNumber of the User
+     * @param  resgistrationNumber the registrationNumber of the User
+     * @param  identificationNumber the identificationNumber of the User
+     * @param  department the depratemnt of the User
+     * @return      a String for success of failure
+     * @see         User
+     */
     @RequestMapping(value = "/addUser", method = RequestMethod.GET)
     @ResponseBody
     public String createUser(@RequestParam(name = "type",defaultValue = "s") String type,

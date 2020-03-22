@@ -22,6 +22,14 @@ public class CourseController {
         this.userDao=userDao;
     }
 
+    /**
+     * Inserts a new Course into the database.
+     * @param  name The name for the course
+     * @param credits The number of credits for the course
+     * @param profId The id of the prof teaching the course
+     * @return      a String for success of failure
+     * @see         Course
+     */
     @RequestMapping(value = "/addCourse", method = RequestMethod.GET)
     @ResponseBody
     public String addCourse(@RequestParam(name = "name") String name,

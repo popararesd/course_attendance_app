@@ -30,6 +30,13 @@ public class AttendaceController {
         this.attendanceDao=attendanceDao;
     }
 
+    /**
+     * Inserts a new Attendence into the database.
+     * @param  courseId The id of the course to be attended
+     * @param  studentId The id of the student atendee
+     * @return      a String for success of failure
+     * @see         Attendance
+     */
     @RequestMapping(value = "/markAttendace", method = RequestMethod.GET)
     @ResponseBody
     public String markAttendace(@RequestParam(name = "course_id") String courseId,
@@ -53,6 +60,12 @@ public class AttendaceController {
             return ex.getMessage();
         }
     }
+    /**
+     * Returns a List of the Students who attended the lecture
+     * @param  courseId The id of the course
+     * @return      a list of Students
+     * @see         Attendance,Student
+     */
     @RequestMapping(value = "/getAttendees", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<Student> getAtendees(@RequestParam(name = "course_id") String courseId){

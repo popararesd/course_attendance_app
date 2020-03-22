@@ -1,7 +1,12 @@
 package com.example.demo.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
+/**
+ * The class used to store information about the courses.
+ *
+ */
 @Entity
 public class Course {
 
@@ -50,5 +55,20 @@ public class Course {
 
     public void setCredits(int credits) {
         this.credits = credits;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Course)) return false;
+        Course course = (Course) o;
+        return getCredits() == course.getCredits() &&
+                getName().equals(course.getName()) &&
+                getProfessor().equals(course.getProfessor());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getCredits(), getProfessor());
     }
 }

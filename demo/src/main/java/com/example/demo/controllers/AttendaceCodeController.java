@@ -6,6 +6,7 @@ import com.example.demo.databaseAccess.CourseDao;
 import com.example.demo.databaseAccess.UserDao;
 import com.example.demo.entity.AttendaceCode;
 import com.example.demo.entity.Course;
+import com.example.demo.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +24,12 @@ public class AttendaceCodeController {
         this.courseDao=courseDao;
        this.codeDao = attendaceCodeDao;
     }
-
+    /**
+     * Inserts a new AttendenceCode into the database.
+     * @param  courseId The id of the course to be attended
+     * @return      a String for success of failure
+     * @see         AttendaceCode
+     */
     @RequestMapping(value = "/createCode", method = RequestMethod.GET)
     @ResponseBody
     public String  createCode(@RequestParam(name = "course_id") String courseId){

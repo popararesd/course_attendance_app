@@ -1,7 +1,12 @@
 package com.example.demo.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
+/**
+ * The basic entity of the application.
+ * This class contains the basic information of all the User types in the application.
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User {
@@ -50,4 +55,19 @@ public class User {
     }
 
     public Long getId(){return this.id;}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return name.equals(user.name) &&
+                email.equals(user.email) &&
+                phoneNumber.equals(user.phoneNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, email, phoneNumber);
+    }
 }

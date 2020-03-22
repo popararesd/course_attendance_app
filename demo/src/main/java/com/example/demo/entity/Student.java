@@ -2,7 +2,12 @@ package com.example.demo.entity;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
+/**
+ * The class adds a few more specifics of a student.
+ *
+ */
 @Entity
 @DiscriminatorValue("student")
 public class Student extends User {
@@ -36,4 +41,18 @@ public class Student extends User {
         this.identificationNumber = identificationNumber;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+        Student student = (Student) o;
+        return Objects.equals(registrationNumber, student.registrationNumber) &&
+                Objects.equals(identificationNumber, student.identificationNumber) && student.getEmail().equals(this.getEmail()) &&
+                student.getName().equals(this.getName()) && student.getPhoneNumber().equals(this.getPhoneNumber());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(registrationNumber, identificationNumber);
+    }
 }

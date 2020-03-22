@@ -2,7 +2,10 @@ package com.example.demo.entity;
 
 import javax.persistence.*;
 import java.util.*;
-
+/**
+ * The class is used to store information about the students that particiapted int he course.
+ *
+ */
 @Entity
 public class Attendance {
 
@@ -33,4 +36,21 @@ public class Attendance {
         this.student = student;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Attendance)) return false;
+        Attendance that = (Attendance) o;
+        return getStudent().equals(that.getStudent()) &&
+                getCourse().equals(that.getCourse());
+    }
+
+    public Long getAttendanceId() {
+        return attendanceId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getStudent(), getCourse());
+    }
 }
