@@ -18,7 +18,7 @@ public class Course {
     @Column
     private int credits;
     @ManyToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name="profId")
     private Professor professor;
 
     public Course(){}
