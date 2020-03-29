@@ -1,6 +1,8 @@
 package com.example.demo.entity;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -15,27 +17,20 @@ public class Course {
     private Long courseId;
     @Column
     private String name;
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<User> attendace;
     @Column
-    private int credits;
-    @ManyToOne
-    @JoinColumn(name="profId")
-    private Professor professor;
+    private Date date;
 
     public Course(){}
 
-    public Course(String name, int credits,Professor professor) {
+    public Course(String name) {
         this.name = name;
-        this.credits = credits;
-        this.professor = professor;
     }
 
-    public Professor getProfessor() {
-        return professor;
-    }
-
-    public void setProfessor(Professor professor) {
-        this.professor = professor;
-    }
 
     public Long getId() {
         return courseId;
@@ -49,12 +44,32 @@ public class Course {
         this.name = name;
     }
 
-    public int getCredits() {
-        return credits;
+    public Long getCourseId() {
+        return courseId;
     }
 
-    public void setCredits(int credits) {
-        this.credits = credits;
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
+    }
+
+    public List<User> getAttendace() {
+        return attendace;
+    }
+
+    public void setAttendace(List<User> attendace) {
+        this.attendace = attendace;
+    }
+
+    public void markAttendance(Student student){
+        this.attendace.add(student);
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     @Override
@@ -62,13 +77,11 @@ public class Course {
         if (this == o) return true;
         if (!(o instanceof Course)) return false;
         Course course = (Course) o;
-        return getCredits() == course.getCredits() &&
-                getName().equals(course.getName()) &&
-                getProfessor().equals(course.getProfessor());
+        return getName().equals(course.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getCredits(), getProfessor());
+        return Objects.hash(getName());
     }
 }

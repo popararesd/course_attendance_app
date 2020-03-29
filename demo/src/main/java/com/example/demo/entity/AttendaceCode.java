@@ -16,7 +16,7 @@ public class AttendaceCode {
     private String code;
 
     @OneToOne
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "courseId")
     private Course Course;
 
     public AttendaceCode(){

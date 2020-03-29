@@ -1,12 +1,9 @@
 package com.example.demo.controllers;
 
 import com.example.demo.databaseAccess.AttendaceCodeDao;
-import com.example.demo.databaseAccess.AttendanceDao;
 import com.example.demo.databaseAccess.CourseDao;
-import com.example.demo.databaseAccess.UserDao;
 import com.example.demo.entity.AttendaceCode;
 import com.example.demo.entity.Course;
-import com.example.demo.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

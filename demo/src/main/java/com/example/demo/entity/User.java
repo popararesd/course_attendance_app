@@ -1,6 +1,8 @@
 package com.example.demo.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -9,7 +11,7 @@ import java.util.Objects;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class User {
+public class User implements StudentObserver {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -21,6 +23,11 @@ public class User {
     private String email;
     @Column
     private String phoneNumber;
+    @ManyToMany(mappedBy = "enrolledStudents")
+    private List<Subject> enrolledSubjects = new ArrayList<>();
+
+    @Column
+    private String newCourse;
 
     public User (String name, String email, String phoneNumber){
         this.name=name;
@@ -69,5 +76,14 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(name, email, phoneNumber);
+    }
+
+    public String getNewCourse(){
+        return this.newCourse;
+    }
+
+    @Override
+    public void update(String newCourse) {
+        this.newCourse = newCourse;
     }
 }
