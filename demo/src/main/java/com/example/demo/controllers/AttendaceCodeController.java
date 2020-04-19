@@ -27,7 +27,7 @@ public class AttendaceCodeController {
      * @return      a String for success of failure
      * @see         AttendaceCode
      */
-    @RequestMapping(value = "/createCode", method = RequestMethod.GET)
+    @RequestMapping(value = "/createCode", method = RequestMethod.POST)
     @ResponseBody
     public String  createCode(@RequestParam(name = "course_id") String courseId){
         try {

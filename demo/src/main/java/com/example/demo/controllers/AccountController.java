@@ -23,7 +23,7 @@ public class AccountController {
         this.userDao=userDao;
     }
 
-    @RequestMapping(value = "/createAccount", method = RequestMethod.GET)
+    @RequestMapping(value = "/createAccount", method = RequestMethod.POST)
     @ResponseBody
     public String createAccount(@RequestParam(name = "user_id") String userId,
                                 @RequestParam(name = "pass") String pass,

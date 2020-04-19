@@ -9,6 +9,8 @@ import com.example.demo.factory.UserTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
@@ -31,9 +33,9 @@ public class UserController {
      * @return      a String for success of failure
      * @see         User
      */
-    @RequestMapping(value = "/addUser", method = RequestMethod.GET)
+    @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     @ResponseBody
-    public String createUser(@RequestParam(name = "type",defaultValue = "s") String type,
+    public User createUser(@RequestParam(name = "type",defaultValue = "s") String type,
                              @RequestParam(name = "name") String name,
                              @RequestParam(name = "email") String email,
                              @RequestParam(name = "phone") String phoneNumber,
@@ -45,7 +47,7 @@ public class UserController {
 
                 user = UserFactory.buildUser(UserTypes.getType(type));
                 if(user == null)
-                    return "Null user!";
+                    return null;
 
             user.setEmail(email);
             user.setName(name);
@@ -62,9 +64,87 @@ public class UserController {
             userDao.save(user);
         }
         catch (Exception ex) {
-            return "Error creating the user: " + ex.toString();
+            return null;
         }
-        return "User succesfully created! (id = " + user.getId() + ")";
+        return user;
+    }
+
+    @RequestMapping(value = "/findUser", method = RequestMethod.GET)
+    @ResponseBody
+    public User findUser(@RequestParam(name = "id") String id){
+        try{
+            Long userId = Long.parseLong(id);
+            Optional<User> foundUser = userDao.findById(userId);
+            return foundUser.get();
+        }catch(Exception ex){
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/updateUser", method = RequestMethod.PUT)
+    @ResponseBody
+    public User updateUser(@RequestParam(name = "id") String id,
+                             @RequestParam(name = "name",defaultValue = "-") String name,
+                             @RequestParam(name = "email",defaultValue = "-") String email,
+                             @RequestParam(name = "phone",defaultValue = "-") String phoneNumber,
+                             @RequestParam(name = "rn",defaultValue = "-") String resgistrationNumber,
+                             @RequestParam(name = "in",defaultValue = "-") String identificationNumber,
+                             @RequestParam(name = "dep",defaultValue = "-") String department){
+        try{
+            Long userId = Long.parseLong(id);
+            Optional<User> foundUser = userDao.findById(userId);
+            User user = foundUser.get();
+            if(!name.equals("-"))
+                user.setName(name);
+            if(!email.equals("-"))
+                user.setEmail(email);
+            if(!phoneNumber.equals("-"))
+                user.setPhoneNumber(phoneNumber);
+            if(!resgistrationNumber.equals("-"))
+                ((Student)user).setRegistrationNumber(resgistrationNumber);
+            if(!identificationNumber.equals("-"))
+                ((Student)user).setIdentificationNumber(identificationNumber);
+            if(!department.equals("-"))
+                ((Professor)user).setDepartment(department);
+            userDao.save(user);
+            return user;
+        }catch(Exception ex){
+            return null;
+        }
+    }
+
+
+    @RequestMapping(value = "/deleteUser", method = RequestMethod.DELETE)
+    @ResponseBody
+    public boolean deleteUser(@RequestParam(name = "id") String id){
+        try{
+            Long userId = Long.parseLong(id);
+            userDao.deleteById(userId);
+            return true;
+        }catch(Exception ex){
+            return false;
+        }
+    }
+
+    @RequestMapping(value = "/findUserByEmail", method = RequestMethod.GET)
+    @ResponseBody
+    public User findUserByEmail(@RequestParam(name = "email") String email){
+        try{
+            return userDao.findByEmail(email);
+        }catch(Exception ex){
+            return null;
+        }
+    }
+    @RequestMapping(value = "/deleteUserByEmail", method = RequestMethod.DELETE)
+    @ResponseBody
+    public boolean deleteUserByEmail(@RequestParam(name = "email") String email){
+        try{
+            User user = userDao.findByEmail(email);
+            userDao.deleteById(user.getId());
+            return true;
+        }catch(Exception ex){
+            return false;
+        }
     }
 
 }
