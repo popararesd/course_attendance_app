@@ -147,4 +147,35 @@ public class UserController {
         }
     }
 
+    @RequestMapping(value = "/updateUserByEmail", method = RequestMethod.PUT)
+    @ResponseBody
+    public User updateUserByEmail(@RequestParam(name = "oldEmail") String oldEmail,
+                                     @RequestParam(name = "name",defaultValue = "-") String name,
+                                     @RequestParam(name = "email",defaultValue = "-") String email,
+                                     @RequestParam(name = "phone",defaultValue = "-") String phoneNumber,
+                                     @RequestParam(name = "rn",defaultValue = "-") String resgistrationNumber,
+                                     @RequestParam(name = "in",defaultValue = "-") String identificationNumber,
+                                     @RequestParam(name = "dep",defaultValue = "-") String department){
+        User user = null;
+        try{
+            user = userDao.findByEmail(oldEmail);
+            if(!name.equals("-"))
+                user.setName(name);
+            if(!email.equals("-"))
+                user.setEmail(email);
+            if(!phoneNumber.equals("-"))
+                user.setPhoneNumber(phoneNumber);
+            if(!resgistrationNumber.equals("-"))
+                ((Student)user).setRegistrationNumber(resgistrationNumber);
+            if(!identificationNumber.equals("-"))
+                ((Student)user).setIdentificationNumber(identificationNumber);
+            if(!department.equals("-"))
+                ((Professor)user).setDepartment(department);
+            userDao.save(user);
+            return user;
+        }catch(Exception ex){
+            return null;
+        }
+    }
+
 }

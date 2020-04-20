@@ -51,24 +51,51 @@ public class AccountController {
 
     @RequestMapping(value = "/validateLogin", method = RequestMethod.GET)
     @ResponseBody
-    public String validateLogin(@RequestParam(name = "email") String email,
+    public boolean validateLogin(@RequestParam(name = "email") String email,
                                 @RequestParam(name = "pass") String pass){
         User user =null;
         Account account = null;
         try{
             Optional<User> foundUser = Optional.ofNullable(userDao.findByEmail(email));
             if(!foundUser.isPresent())
-                return "User inexistent!";
+                return false;
             user = foundUser.get();
             Account foundAccount = accountDao.findByUser(user);
             if((new PasswordAuthentication()).authenticate(pass,foundAccount.getPassword()))
-                return "Valid!";
+                return true;
             else
-                return "Invalid!";
+                return false;
 
+        }catch(Exception ex){
+            return false;
+        }
+    }
+
+    @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
+    @ResponseBody
+    public String changePassword(@RequestParam(name = "email") String email,
+                                 @RequestParam(name = "pass") String pass,
+                                  @RequestParam(name = "pass_confirm") String confPass){
+        if(!pass.equals(confPass)){
+            return "Passwords do not match!";
+        }
+        User user =null;
+        Account account = null;
+        try{
+            user= userDao.findByEmail(email);
+            if(user == null)
+                return "User inexistent!";
+            String password = (new PasswordAuthentication()).hash(pass);
+            account = new Account();
+            account.setUser(user);
+            account.setPassword(password);
+            accountDao.save(account);
+            return "Password Changed!";
         }catch(Exception ex){
             return ex.getMessage();
         }
     }
+
+
 
 }
