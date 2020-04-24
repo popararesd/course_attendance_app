@@ -26,22 +26,21 @@ public class CourseController {
     }
 
     /**
-     * Inserts a new Course into the database.
-     * @param  name The name for the course
-     * @param credits The number of credits for the course
-     * @param profId The id of the prof teaching the course
-     * @return      a String for success of failure
-     * @see         Course
+     * Inserts a new course into the database.
+     * @param name The name of the course.
+     * @param day The day the course is held.
+     * @param mon The month the course is held.
+     * @param year The year the course is held.
+     * @return The course object.
      */
-    @RequestMapping(value = "/addCourse", method = RequestMethod.GET)
+    @RequestMapping(value = "/addCourse", method = RequestMethod.POST)
     @ResponseBody
-    public String addCourse(@RequestParam(name = "name") String name,
+    public Course addCourse(@RequestParam(name = "name") String name,
                             @RequestParam(name = "day") String day,
                             @RequestParam(name = "mon") String mon,
                             @RequestParam(name = "year") String year) {
         Course course = null;
         try {
-
             course = new Course();
             course.setName(name);
             int dayInt = Integer.parseInt(day);
@@ -56,14 +55,20 @@ public class CourseController {
             course.setAttendace(new ArrayList<>());
             courseDao.save(course);
         } catch (Exception ex) {
-            return ex.getMessage();
+            return null;
         }
-        return "Course added succesfully!";
+        return course;
     }
 
-    @RequestMapping(value = "/markAttendance", method = RequestMethod.GET)
+    /**
+     * Inserts the student into the atendee list.
+     * @param courseId The id of the course.
+     * @param studentId The id of the student.
+     * @return The updated course.
+     */
+    @RequestMapping(value = "/markAttendance", method = RequestMethod.PUT)
     @ResponseBody
-    public String markAttendance(@RequestParam(name = "c_id") String courseId,
+    public Course markAttendance(@RequestParam(name = "c_id") String courseId,
                                  @RequestParam(name = "s_id") String studentId){
         Student student = null;
         Course course = null;
@@ -72,18 +77,18 @@ public class CourseController {
             Long sId = Long.parseLong(studentId);
             Optional<Course> foundCourse = courseDao.findById(cId);
             if(!foundCourse.isPresent())
-                return "Null course!";
+                return null;
             Optional<User> foundUser = userDao.findById(sId);
             if(!foundUser.isPresent())
-                return "Null user!";
+                return null;
             student = (Student) foundUser.get();
             course = foundCourse.get();
             course.markAttendance(student);
             courseDao.save(course);
         } catch (Exception ex) {
-            return ex.getMessage();
+            return null;
         }
-        return "Successfully marked attendance for "+ student.getFirstName()+ " " + student.getLastName() +"!";
+        return course;
 
     }
 

@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+/**
+ * This class controls the flow of information for the attendace codes.
+ */
 @RestController
 @RequestMapping(value = "/code")
 public class AttendaceCodeController {
@@ -22,7 +25,7 @@ public class AttendaceCodeController {
        this.codeDao = attendaceCodeDao;
     }
     /**
-     * Inserts a new AttendenceCode into the database.
+     * Inserts a new AttendanceCode into the database.
      * @param  courseId The id of the course to be attended
      * @return      a String for success of failure
      * @see         AttendaceCode
@@ -43,6 +46,11 @@ public class AttendaceCodeController {
         }
     }
 
+    /**
+     * Returns the course corresponding with the given code.
+     * @param code The code for the course
+     * @return The course object.
+     */
     @RequestMapping(value = "/getCourseByCode", method = RequestMethod.GET)
     @ResponseBody
     public Course  getCourse(@RequestParam(name = "code") String code){

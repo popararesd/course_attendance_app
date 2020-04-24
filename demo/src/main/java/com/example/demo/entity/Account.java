@@ -2,8 +2,12 @@ package com.example.demo.entity;
 
 import javax.persistence.*;
 
+/**
+ * This class is used to store information about an account (the user and the password).
+ */
 @Entity
 public class Account {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
