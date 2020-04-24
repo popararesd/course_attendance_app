@@ -1,5 +1,7 @@
 package com.example.demo.utility;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -9,8 +11,9 @@ import java.util.Base64;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
+/**
+ * This class is used for password hashing.
+ */
 
 public final class PasswordAuthentication
 {
@@ -91,12 +94,23 @@ public final class PasswordAuthentication
         }
     }
 
+    /**
+     *
+     * @param password String containing the password you wish to hash.
+     * @return The hash of the password.
+     */
     @Deprecated
     public String hash(String password)
     {
         return hash(password.toCharArray());
     }
 
+    /**
+     *
+     * @param password The password you wish to check
+     * @param token The hash of the correct password
+     * @return True for matching , False otherwise
+     */
     @Deprecated
     public boolean authenticate(String password, String token)
     {

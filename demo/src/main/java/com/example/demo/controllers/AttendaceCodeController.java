@@ -42,4 +42,19 @@ public class AttendaceCodeController {
             return ex.getMessage();
         }
     }
+
+    @RequestMapping(value = "/getCourseByCode", method = RequestMethod.GET)
+    @ResponseBody
+    public Course  getCourse(@RequestParam(name = "code") String code){
+        try {
+            AttendaceCode attendaceCode = codeDao.findByCode(code);
+            if (attendaceCode == null)
+                return null;
+            return attendaceCode.getCourse();
+        }catch(Exception ex){
+            return null;
+        }
+    }
+
+
 }

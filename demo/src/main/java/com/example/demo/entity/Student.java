@@ -1,7 +1,8 @@
 package com.example.demo.entity;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import java.util.Objects;
 
 /**
@@ -17,8 +18,8 @@ public class Student extends User {
     @Column
     private String identificationNumber;
 
-    public Student (String name, String email, String phoneNumber,String registrationNumber,String identificationNumber){
-        super(name,email,phoneNumber);
+    public Student (String firstName,String lastName, String email, String phoneNumber,String registrationNumber,String identificationNumber){
+        super(firstName,lastName,email,phoneNumber);
         this.registrationNumber=registrationNumber;
         this.identificationNumber=identificationNumber;
     }
@@ -48,7 +49,7 @@ public class Student extends User {
         Student student = (Student) o;
         return Objects.equals(registrationNumber, student.registrationNumber) &&
                 Objects.equals(identificationNumber, student.identificationNumber) && student.getEmail().equals(this.getEmail()) &&
-                student.getName().equals(this.getName()) && student.getPhoneNumber().equals(this.getPhoneNumber());
+                student.getFirstName().equals(this.getFirstName()) && student.getLastName().equals(this.getLastName()) && student.getPhoneNumber().equals(this.getPhoneNumber());
     }
 
     @Override

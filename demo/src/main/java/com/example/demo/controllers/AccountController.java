@@ -4,11 +4,10 @@ import com.example.demo.databaseAccess.AccountDao;
 import com.example.demo.databaseAccess.UserDao;
 import com.example.demo.entity.Account;
 import com.example.demo.entity.User;
+import com.example.demo.utility.PasswordAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
-import com.example.demo.utility.PasswordAuthentication;
 import java.util.Optional;
 
 @RestController

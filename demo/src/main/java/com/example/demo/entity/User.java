@@ -18,31 +18,55 @@ public class User implements StudentObserver {
     @Column(name = "user_id")
     private Long id;
     @Column
-    private String name;
+    private String firstName;
+    @Column
+    private String lastName;
     @Column
     private String email;
     @Column
     private String phoneNumber;
+
     @ManyToMany(mappedBy = "enrolledStudents")
     private List<Subject> enrolledSubjects = new ArrayList<>();
 
     @Column
     private String newCourse;
 
-    public User (String name, String email, String phoneNumber){
-        this.name=name;
-        this.email=email;
-        this.phoneNumber=phoneNumber;
+    public User(String firstName, String lastName, String email, String phoneNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
     public User (){}
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public List<Subject> getEnrolledSubjects() {
+        return enrolledSubjects;
+    }
+
+    public void setEnrolledSubjects(List<Subject> enrolledSubjects) {
+        this.enrolledSubjects = enrolledSubjects;
+    }
+
+    public void setNewCourse(String newCourse) {
+        this.newCourse = newCourse;
     }
 
     public String getEmail() {
@@ -68,14 +92,15 @@ public class User implements StudentObserver {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return name.equals(user.name) &&
+        return firstName.equals(user.firstName) &&
+                lastName.equals(user.lastName) &&
                 email.equals(user.email) &&
                 phoneNumber.equals(user.phoneNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, email, phoneNumber);
+        return Objects.hash(firstName,lastName, email, phoneNumber);
     }
 
     public String getNewCourse(){

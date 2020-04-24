@@ -1,7 +1,8 @@
 package com.example.demo.entity;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import java.util.Objects;
 /**
  * The class adds a few more specifics of a professor.
@@ -14,8 +15,8 @@ public class Professor extends User {
     @Column
     private String department;
 
-    public Professor(String name, String email, String phoneNumber, String department) {
-        super(name, email, phoneNumber);
+    public Professor(String firstName,String lastName, String email, String phoneNumber, String department) {
+        super(firstName,lastName, email, phoneNumber);
         this.department = department;
     }
 
@@ -36,7 +37,7 @@ public class Professor extends User {
         if (!super.equals(o)) return false;
         Professor student = (Professor) o;
         return department.equals(student.department) && student.getEmail().equals(this.getEmail()) &&
-                student.getName().equals(this.getName()) && student.getPhoneNumber().equals(this.getPhoneNumber());
+                student.getFirstName().equals(this.getFirstName()) && student.getLastName().equals(this.getLastName()) && student.getPhoneNumber().equals(this.getPhoneNumber());
     }
 
     @Override

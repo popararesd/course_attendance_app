@@ -3,7 +3,6 @@ package com.example.demo.controllers;
 import com.example.demo.databaseAccess.CourseDao;
 import com.example.demo.databaseAccess.UserDao;
 import com.example.demo.entity.Course;
-import com.example.demo.entity.Professor;
 import com.example.demo.entity.Student;
 import com.example.demo.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +83,9 @@ public class CourseController {
         } catch (Exception ex) {
             return ex.getMessage();
         }
-        return "Successfully marked attendance for "+ student.getName() +"!";
+        return "Successfully marked attendance for "+ student.getFirstName()+ " " + student.getLastName() +"!";
 
     }
+
+
 }

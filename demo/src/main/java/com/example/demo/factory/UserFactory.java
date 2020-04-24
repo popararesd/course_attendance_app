@@ -1,7 +1,9 @@
 package com.example.demo.factory;
 
-import com.example.demo.entity.*;
-import com.example.demo.factory.UserTypes;
+import com.example.demo.entity.Admin;
+import com.example.demo.entity.Professor;
+import com.example.demo.entity.Student;
+import com.example.demo.entity.User;
 /**
  * The class used to build Users.
  *

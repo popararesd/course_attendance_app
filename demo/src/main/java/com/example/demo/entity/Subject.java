@@ -24,6 +24,7 @@ public class Subject {
     )
     private List<User> enrolledStudents = new ArrayList<>();
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "porf_id")
     private Professor professor;

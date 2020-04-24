@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+/**
+ * This class controls the flow of information regarding the users.
+ */
+
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
@@ -35,8 +39,9 @@ public class UserController {
      */
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     @ResponseBody
-    public User createUser(@RequestParam(name = "type",defaultValue = "s") String type,
-                             @RequestParam(name = "name") String name,
+    public boolean createUser(@RequestParam(name = "type",defaultValue = "s") String type,
+                             @RequestParam(name = "first_name") String firstName,
+                              @RequestParam(name = "last_name") String lastName,
                              @RequestParam(name = "email") String email,
                              @RequestParam(name = "phone") String phoneNumber,
                              @RequestParam(name = "rn",defaultValue = "-") String resgistrationNumber,
@@ -47,10 +52,11 @@ public class UserController {
 
                 user = UserFactory.buildUser(UserTypes.getType(type));
                 if(user == null)
-                    return null;
+                    return false;
 
             user.setEmail(email);
-            user.setName(name);
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
             user.setPhoneNumber(phoneNumber);
 
             if(user instanceof Student){
@@ -64,11 +70,16 @@ public class UserController {
             userDao.save(user);
         }
         catch (Exception ex) {
-            return null;
+            return false;
         }
-        return user;
+        return true;
     }
 
+    /**
+     *
+     * @param id The id of the user.
+     * @return An User object.
+     */
     @RequestMapping(value = "/findUser", method = RequestMethod.GET)
     @ResponseBody
     public User findUser(@RequestParam(name = "id") String id){
@@ -81,10 +92,23 @@ public class UserController {
         }
     }
 
+    /**
+     * Set only the parameters to be updated.
+     * @param id The id of the user.
+     * @param firstName The new first name.
+     * @param lastName The new last name.
+     * @param email The new email.
+     * @param phoneNumber The new phone number.
+     * @param resgistrationNumber The new registration number.
+     * @param identificationNumber The new identification number.
+     * @param department The new department.
+     * @return The new updated User object.
+     */
     @RequestMapping(value = "/updateUser", method = RequestMethod.PUT)
     @ResponseBody
     public User updateUser(@RequestParam(name = "id") String id,
-                             @RequestParam(name = "name",defaultValue = "-") String name,
+                             @RequestParam(name = "first_name",defaultValue = "-") String firstName,
+                             @RequestParam(name = "last_name",defaultValue = "-") String lastName,
                              @RequestParam(name = "email",defaultValue = "-") String email,
                              @RequestParam(name = "phone",defaultValue = "-") String phoneNumber,
                              @RequestParam(name = "rn",defaultValue = "-") String resgistrationNumber,
@@ -94,8 +118,10 @@ public class UserController {
             Long userId = Long.parseLong(id);
             Optional<User> foundUser = userDao.findById(userId);
             User user = foundUser.get();
-            if(!name.equals("-"))
-                user.setName(name);
+            if(!firstName.equals("-"))
+                user.setFirstName(firstName);
+            if(!lastName.equals("-"))
+                user.setLastName(lastName);
             if(!email.equals("-"))
                 user.setEmail(email);
             if(!phoneNumber.equals("-"))
@@ -113,7 +139,11 @@ public class UserController {
         }
     }
 
-
+    /**
+     *
+     * @param id The id of the user to be deleted.
+     * @return True if deleted, False otherwise.
+     */
     @RequestMapping(value = "/deleteUser", method = RequestMethod.DELETE)
     @ResponseBody
     public boolean deleteUser(@RequestParam(name = "id") String id){
@@ -126,6 +156,11 @@ public class UserController {
         }
     }
 
+    /**
+     *
+     * @param email The email of the user.
+     * @return The user with the coresponding email.
+     */
     @RequestMapping(value = "/findUserByEmail", method = RequestMethod.GET)
     @ResponseBody
     public User findUserByEmail(@RequestParam(name = "email") String email){
@@ -135,6 +170,12 @@ public class UserController {
             return null;
         }
     }
+
+    /**
+     *
+     * @param email The email of the user to be deleted.
+     * @return True if deleted, False otherwise.
+     */
     @RequestMapping(value = "/deleteUserByEmail", method = RequestMethod.DELETE)
     @ResponseBody
     public boolean deleteUserByEmail(@RequestParam(name = "email") String email){
@@ -147,10 +188,23 @@ public class UserController {
         }
     }
 
+    /**
+     * Set only the parameters to be updated.
+     * @param oldEmail The current email of the user to be updated.
+     * @param firstName The new first name.
+     * @param lastName The new last name.
+     * @param email The new email.
+     * @param phoneNumber The new phone number.
+     * @param resgistrationNumber The new registration number.
+     * @param identificationNumber The new identification number.
+     * @param department The new department.
+     * @return The new updated User object.
+     */
     @RequestMapping(value = "/updateUserByEmail", method = RequestMethod.PUT)
     @ResponseBody
     public User updateUserByEmail(@RequestParam(name = "oldEmail") String oldEmail,
-                                     @RequestParam(name = "name",defaultValue = "-") String name,
+                                  @RequestParam(name = "first_name",defaultValue = "-") String firstName,
+                                  @RequestParam(name = "last_name",defaultValue = "-") String lastName,
                                      @RequestParam(name = "email",defaultValue = "-") String email,
                                      @RequestParam(name = "phone",defaultValue = "-") String phoneNumber,
                                      @RequestParam(name = "rn",defaultValue = "-") String resgistrationNumber,
@@ -159,8 +213,10 @@ public class UserController {
         User user = null;
         try{
             user = userDao.findByEmail(oldEmail);
-            if(!name.equals("-"))
-                user.setName(name);
+            if(!firstName.equals("-"))
+                user.setFirstName(firstName);
+            if(!lastName.equals("-"))
+                user.setLastName(lastName);
             if(!email.equals("-"))
                 user.setEmail(email);
             if(!phoneNumber.equals("-"))
