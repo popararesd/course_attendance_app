@@ -107,13 +107,26 @@ public class SubjectController {
             if(!foundSubject.isPresent())
                 return null;
             subject = foundSubject.get();
-            subject.addObserver(student);
+            subject.addStudent(student);
             subjectDao.save(subject);
             return subject;
         }catch(Exception ex){
             return null;
         }
 
+    }
+
+    @RequestMapping(value = "/getSubject", method = RequestMethod.GET)
+    @ResponseBody
+    public Subject getSubject(@RequestParam(name = "s_id") String subjectId){
+        Subject subject = null;
+        try {
+            Long sId = Long.parseLong(subjectId);
+            subject = subjectDao.findById(sId).get();
+            return subject;
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
 

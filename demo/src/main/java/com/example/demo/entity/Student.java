@@ -1,8 +1,14 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -17,6 +23,24 @@ public class Student extends User {
     private String registrationNumber;
     @Column
     private String identificationNumber;
+
+    @JsonBackReference
+    @ManyToMany(mappedBy = "enrolledStudents")
+    @JsonIgnoreProperties("enrolledStudents")
+    private List<Subject> enrolledSubjects = new ArrayList<>();
+
+    @JsonBackReference
+    @ManyToMany(mappedBy = "attendace")
+    @JsonIgnoreProperties("attendace")
+    private List<Course> attendedCourses = new ArrayList<>();
+
+    public List<Subject> getEnrolledSubjects() {
+        return enrolledSubjects;
+    }
+
+    public void setEnrolledSubjects(List<Subject> enrolledSubjects) {
+        this.enrolledSubjects = enrolledSubjects;
+    }
 
     public Student (String firstName,String lastName, String email, String phoneNumber,String registrationNumber,String identificationNumber){
         super(firstName,lastName,email,phoneNumber);
@@ -55,5 +79,13 @@ public class Student extends User {
     @Override
     public int hashCode() {
         return Objects.hash(registrationNumber, identificationNumber);
+    }
+
+    public List<Course> getAttendedCourses() {
+        return attendedCourses;
+    }
+
+    public void setAttendedCourses(List<Course> attendedCourses) {
+        this.attendedCourses = attendedCourses;
     }
 }

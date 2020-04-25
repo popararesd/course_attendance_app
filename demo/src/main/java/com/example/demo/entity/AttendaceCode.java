@@ -46,4 +46,12 @@ public class AttendaceCode {
     public void setCourse(com.example.demo.entity.Course course) {
         Course = course;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 }

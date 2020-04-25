@@ -1,5 +1,8 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +17,8 @@ public class Subject {
     private int credits;
     @Column
     private String name;
+
+    @JsonManagedReference
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
@@ -22,29 +27,33 @@ public class Subject {
             joinColumns = @JoinColumn(name = "subject_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
-    private List<User> enrolledStudents = new ArrayList<>();
+    @JsonIgnoreProperties("enrolledSubjects")
+    private List<Student> enrolledStudents = new ArrayList<>();
 
-
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "porf_id")
     private Professor professor;
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "courseId")
+    @JoinColumn(name = "c_id")
     private List<Course> courses = new ArrayList<>();
 
     public void addObserver(StudentObserver user){
-        this.enrolledStudents.add((User)user);
+        this.enrolledStudents.add((Student)user);
     }
 
     public void removeObserver(StudentObserver user){
-        this.enrolledStudents.remove((User)user);
+        this.enrolledStudents.remove((Student)user);
     }
     public void addNewCourse(Course course,String message){
         this.courses.add(course);
         for(StudentObserver s : this.enrolledStudents)
             s.update(message);
     }
+
+    public void addStudent(Student user){this.enrolledStudents.add(user);}
 
     public Long getId() {
         return id;
@@ -66,11 +75,11 @@ public class Subject {
         this.name = name;
     }
 
-    public List<User> getEnrolledStudents() {
+    public List<Student> getEnrolledStudents() {
         return enrolledStudents;
     }
 
-    public void setEnrolledStudents(List<User> enrolledStudents) {
+    public void setEnrolledStudents(List<Student> enrolledStudents) {
         this.enrolledStudents = enrolledStudents;
     }
 
@@ -92,5 +101,9 @@ public class Subject {
 
     public void addCourse(Course course){
         this.courses.add(course);
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -1,5 +1,8 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +12,7 @@ import java.util.Objects;
  * The basic entity of the application.
  * This class contains the basic information of all the User types in the application.
  */
+
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User implements StudentObserver {
@@ -26,11 +30,14 @@ public class User implements StudentObserver {
     @Column
     private String phoneNumber;
 
-    @ManyToMany(mappedBy = "enrolledStudents")
-    private List<Subject> enrolledSubjects = new ArrayList<>();
+
 
     @Column
     private String newCourse;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public User(String firstName, String lastName, String email, String phoneNumber) {
         this.firstName = firstName;
@@ -57,13 +64,7 @@ public class User implements StudentObserver {
         this.lastName = lastName;
     }
 
-    public List<Subject> getEnrolledSubjects() {
-        return enrolledSubjects;
-    }
 
-    public void setEnrolledSubjects(List<Subject> enrolledSubjects) {
-        this.enrolledSubjects = enrolledSubjects;
-    }
 
     public void setNewCourse(String newCourse) {
         this.newCourse = newCourse;

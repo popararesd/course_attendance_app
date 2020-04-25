@@ -1,6 +1,11 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -17,11 +22,24 @@ public class Course {
     private Long courseId;
     @Column
     private String name;
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subj_id")
+    private Subject subject;
+
+    @JsonManagedReference
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "course_attendees",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "atendee_id")
     )
-    private List<User> attendace;
+    @JsonIgnoreProperties("attendedCourses")
+    private List<Student> attendace = new ArrayList<>();
+
     @Column
     private Date date;
 
@@ -52,11 +70,11 @@ public class Course {
         this.courseId = courseId;
     }
 
-    public List<User> getAttendace() {
+    public List<Student> getAttendace() {
         return attendace;
     }
 
-    public void setAttendace(List<User> attendace) {
+    public void setAttendace(List<Student> attendace) {
         this.attendace = attendace;
     }
 
@@ -84,4 +102,5 @@ public class Course {
     public int hashCode() {
         return Objects.hash(getName());
     }
+
 }

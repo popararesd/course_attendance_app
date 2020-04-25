@@ -42,7 +42,6 @@ public class CourseController {
         Course course = null;
         try {
             course = new Course();
-            course.setName(name);
             int dayInt = Integer.parseInt(day);
             int monInt = Integer.parseInt(mon);
             int yearInt = Integer.parseInt(year);
@@ -53,6 +52,7 @@ public class CourseController {
             Date date = cal.getTime();
             course.setDate(date);
             course.setAttendace(new ArrayList<>());
+            course.setName(name);
             courseDao.save(course);
         } catch (Exception ex) {
             return null;
@@ -90,6 +90,18 @@ public class CourseController {
         }
         return course;
 
+    }
+
+    @RequestMapping(value = "/getCourse", method = RequestMethod.GET)
+    @ResponseBody
+    public Course getCourse(@RequestParam(name = "c_id") String courseId){
+        Course course = null;
+        try {
+            Long cId = Long.parseLong(courseId);
+            return courseDao.findById(cId).get();
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
 
