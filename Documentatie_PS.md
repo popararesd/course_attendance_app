@@ -44,12 +44,47 @@ Interfetele DAO sunt utilizate pentru managementul bazei de date.Clasele entitat
 Clasele controller sunt utilizate pentru comunicare cu Serverul.Managementul fiecarei entitati se realizeaza in clasa controller asignata entitatii. Folosind adnotatia @RestController aplicatia mapeaza o comanda la controller-ul respectiv.  
 
 Clasa UserFactory este utilizata la creearea unui nou obiect de tipul User.
+> UML updatat 
 
-![Untitled Document (1).jpg](https://www.dropbox.com/s/xfayav5872whhfv/Untitled%20Document%20%281%29.jpg?dl=0&raw=1) 
+![UML PS2020 (2).png](https://www.dropbox.com/s/l6b8jji9uxqdxt5/UML%20PS2020%20%282%29.png?dl=0&raw=1)
+
+Clasa **User** retine informatiile de baza pe care le are orice user al aplicatiei, de exemplu:
+>- prenumele 
+>- numele 
+>- emailul 
+
+Clasele **Student**,**Professor** si **Admin** extind clasa **User**, acestea proceseaza date specifice fiecarui tip de utilizator. 
+
+Clasa **Course** retine toate datele referiotare la un curs, de exemplu: 
+>- numele 
+>- data 
+>- o lista de prezenta 
+
+Clasa **Subject** proceseaza informatiile legate de o materie, acesata fiind formata din urmatorele atribute: 
+>- o lista de studenti care urmeaza materia respectiva 
+>- numele materiei 
+>- numarul de credite 
+>- o lista de cursuri 
+>- un profesor 
+
+Clasa **AttendanceCode** este utilizata pentru generarea unui cod unic pentru fiecare curs, codul fiind folosit mai apoi de studenti pentru a marca prezenta la curs. 
+Clasa **PasswordAuthentication** este utilizata pentru a genera un *hash* fiecarei parole. 
+Clasa **Account** retine datele de autentificare pentru useri. 
+Clasa **UserFactory** si enumeratia **UserTypes** sunt utilizate impreuna, acestea fiind utilizate in implementarea design-patternului *Factory*. 
+
+Toate *Interfetele* **DAO** extind interfata **JPARepository** si executa operatii pe baza de date. 
+Clasele **Controller** executa diverse operatii pe modelul de date, cat si pe baza de date.
+
+
+
 #### 3.1.2 Baza de date 
  
  Tabele din baza de de date coincid cu clasele entitate. 
  
- ![database.png](https://www.dropbox.com/s/g4etfxe5fytang2/database.png?dl=0&raw=1)
+ ![database.png](https://www.dropbox.com/s/g4etfxe5fytang2/database.png?dl=0&raw=1) 
+ 
+ > Schema bazei de date 
+ 
+ ![Untitled Document.png](https://www.dropbox.com/s/kk4xisjtkn9edmj/Untitled%20Document.png?dl=0&raw=1)
 
 
