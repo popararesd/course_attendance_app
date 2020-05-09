@@ -1,6 +1,5 @@
 ![utcn_logo.jpg](https://www.dropbox.com/s/jp4ec7zvbyr4rsz/utcn_logo.jpg?dl=0&raw=1)
 
-
 # Documentatie PS
 
 ## Aplicatie pentru prezenta la cursuri 
@@ -74,6 +73,8 @@ Clasa **UserFactory** si enumeratia **UserTypes** sunt utilizate impreuna, acest
 
 Toate *Interfetele* **DAO** extind interfata **JPARepository** si executa operatii pe baza de date. 
 Clasele **Controller** executa diverse operatii pe modelul de date, cat si pe baza de date.
+
+![sequence diagram 1.png](https://www.dropbox.com/s/xfomimrbdgjqc13/sequence%20diagram%201.png?dl=0&raw=1)
 
 
 
